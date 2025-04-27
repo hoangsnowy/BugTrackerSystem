@@ -1,30 +1,15 @@
-# Root EditorConfig file
 root = true
 
-# Apply to all C# files
+##############################
+# C# code (*.cs)
+##############################
 [*.cs]
+dotnet_diagnostic.CS8603.severity = none   # Possible null ref return
+dotnet_diagnostic.CS8625.severity = none   # Null literal to non-nullable
+dotnet_diagnostic.CS8602.severity = none   # Deref of possibly null
+dotnet_diagnostic.CS8618.severity = none   # Non-nullable prop must initialize
+dotnet_diagnostic.CS8601.severity = none   # Possible null assignment
 
-# Allow nullable reference return without warning
-dotnet_diagnostic.CS8603.severity = none
-
-# Allow null assignment to non-nullable reference type
-dotnet_diagnostic.CS8625.severity = none
-
-# Allow dereference of a possibly null reference
-dotnet_diagnostic.CS8602.severity = none
-
-# Allow uninitialized non-nullable property
-dotnet_diagnostic.CS8618.severity = none
-
-# Allow possible null reference assignment
-dotnet_diagnostic.CS8601.severity = none
-dotnet_diagnostic.CS8603.severity = none
-
-# Ignore warning about string interpolation in logging templates
-dotnet_diagnostic.S2629.severity = none
-
-# Ignore ModelState.IsValid checking in controller actions
-dotnet_diagnostic.S6967.severity = none
-
-# Ignore unused variable (optional nếu cần)
-dotnet_diagnostic.S1481.severity = none
+dotnet_diagnostic.S2629.severity = none   # No string-interpolation in logging
+dotnet_diagnostic.S6967.severity = none   # No ModelState.IsValid required
+dotnet_diagnostic.S1481.severity = none   # Unused local var
