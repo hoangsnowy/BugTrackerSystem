@@ -1,0 +1,101 @@
+﻿@model List<BugTracker.Models.ViewModels.Issue.IssueViewModel>
+
+@{
+    ViewData["Title"] = "Issues";
+}
+
+<div>
+    <form asp-controller="Issue" asp-action="Index">
+        <div class="input-group">
+            <input name="SearchString" type="search" class="form-control" placeholder="Search..." aria-label="Search..." aria-describedby="search-addon"/>
+            <button type="submit" class="input-group-text">
+                <i class="fas fa-search"></i>
+            </button>
+            <a class="input-group-text" href="@Url.Action("CreateIssue", "Issue")", role="button">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    </form>
+</div>
+
+<table class="table table-responsive-xl">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Assignee</th>
+        <th>Priority</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var issue in Model)
+    {
+        <tr class="alert" role="alert">
+            <td>
+                <span>#@issue.Id</span>
+            </td>
+            <td>
+                <div class="email">
+                    <span>
+                        <a href="@Url.Action("DetailIssue", "Issue", new {issueId = issue.Id})">@issue.Title</a>
+                    </span>
+                    @if (issue.Updated != null)
+                    {
+                        <span>updated @issue.Updated</span>
+                    }
+                    else
+                    {
+                        <span>there are no updates</span>
+                    }
+                </div>
+            </td>
+            <td>
+                <div class="email">
+                    <span>@issue.CreatedBy</span>
+                    <span>created @issue.Created</span>
+                </div>
+            </td>
+            <td>
+                <div>
+                    @if (issue.AssignedTo == null)
+                    {
+                        <span>—</span>
+                    }
+                    else
+                    {
+                        <span>@issue.AssignedTo</span>
+                    }
+                </div>
+            </td>
+            <td class="status">
+                @switch (issue.Priority)
+                {
+                    case "ASAP":
+                    case "High":
+                        <span class="high">@issue.Priority</span>
+                        break;
+                    case "Normal":
+                        <span class="normal">@issue.Priority</span>
+                        break;
+                    case "Low":
+                        <span class="low">@issue.Priority</span>
+                        break;
+                }
+            </td>
+            <td class="status">
+                @switch (issue.Status)
+                {
+                    case "Closed":
+                        <span class="low">@issue.Status</span>
+                        break;
+                    case "Open":
+                        <span class="normal">@issue.Status</span>
+                        break;
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

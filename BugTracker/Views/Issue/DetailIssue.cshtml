@@ -1,0 +1,64 @@
+﻿@model BugTracker.Models.ViewModels.Issue.IssueDetailsViewModel
+@{
+    ViewBag.Title = $"Details of issue #{Model.Id}";
+}
+
+<div class="container-fluid">
+    <div class="py-3">
+        <h6 class="m-0">Issue #@Model.Id</h6>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered display-5">
+                    <thead>
+                    <tr>
+                        <td>
+                            <div>
+                                <b>@Model.Title</b> |
+                                @if (Model.Status == "Open")
+                                {
+                                    <a href="@Url.Action("ChangeIssueStatus", "Issue", new {issueId = Model.Id, statusId = 2})">Close issue</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("ChangeIssueStatus", "Issue", new {issueId = Model.Id, statusId = 1})">Reopen issue</a>
+                                }
+                            </div>
+                            <div>
+                                @Model.Description
+                            </div>
+                            <hr class="sidebar-divider my-0">
+                            <div>
+                                Priority: @Model.Priority
+                            </div>
+                            <div>
+                                Status: @Model.Status
+                            </div>
+                            <hr class="sidebar-divider my-0">
+                            <div>
+                                <span>Author: @Model.CreatedBy</span>
+                            </div>
+                            <div>
+                                <span>Assignee: @(Model.AssignedTo ?? "No one assigned.")</span>
+                            </div>
+                            <div>
+                            </div>
+                            <hr class="sidebar-divider my-0">
+                            <div>
+                                <span>Created date: @Model.Created </span>
+                            </div>
+                            <div>
+                                <span>@(Model.Updated.HasValue ? "Updated date: " + Model.Updated : "")</span>
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <a class="btn btn-primary" href="@Url.Action("EditIssue", "Issue", new { issueId = Model.Id })" , role="button">Edit issue details</a>
+    <a class="btn btn-primary" href="@Url.Action("Index", "Issue")" role="button">Back</a>
+</div>
