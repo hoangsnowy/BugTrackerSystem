@@ -1,8 +1,6 @@
-﻿using BugTracker.Data.Models;
-using System;
+﻿using BugTracker.Business.DTOs;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace BugTracker.Web.ViewModels.Issue
 {
@@ -18,11 +16,11 @@ namespace BugTracker.Web.ViewModels.Issue
         public string Description { get; init; } = null!;
 
         public string AssignedToId { get; init; }
-        public IEnumerable<User> Users { get; init; }
+        public IEnumerable<UserDto> Users { get; init; }
 
         [Required(ErrorMessage = "The {0} should be specified")]
         public int PriorityId { get; init; }
 
-        public IEnumerable<Priority> Priorities { get; init; }
+        public IEnumerable<PriorityDto> Priorities { get; init; }
     }
 }

@@ -52,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BugTracker.Business\BugTracker.Business.csproj" />
     <ProjectReference Include="..\BugTracker.Data\BugTracker.Data.csproj" />
   </ItemGroup>
 
