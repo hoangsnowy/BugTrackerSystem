@@ -1,4 +1,5 @@
-﻿using BugTracker.Models.Attributes;
+﻿using BugTracker.Data.Attributes;
+using System;
 
 namespace BugTracker.Data.Models
 {

@@ -1,8 +1,7 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using BugTracker.Data.Models;
 
-namespace BugTracker.Models.Attributes
+namespace BugTracker.Data.Attributes
 {
     public class LoginEmailEqualAttribute : ValidationAttribute
     {

@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using BugTracker.Data;
 using BugTracker.Data.Models;
 using BugTracker.Data.Repositories;
-using BugTracker.Models.ViewModels.Issue;
+using BugTracker.Web.ViewModels.Issue;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace BugTracker.Controllers
+namespace BugTracker.Web.Controllers
 {
     [Authorize]
     public class IssueController : Controller

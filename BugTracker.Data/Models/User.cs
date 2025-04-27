@@ -1,5 +1,6 @@
-﻿using BugTracker.Models.Attributes;
+﻿using BugTracker.Data.Attributes;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace BugTracker.Data.Models
 {

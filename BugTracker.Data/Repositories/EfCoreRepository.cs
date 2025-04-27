@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BugTracker.Data.Models;
+﻿using BugTracker.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Data.Repositories

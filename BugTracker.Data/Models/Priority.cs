@@ -1,4 +1,6 @@
-﻿namespace BugTracker.Data.Models
+﻿using System;
+
+namespace BugTracker.Data.Models
 {
     public class Priority : IEntity
     {

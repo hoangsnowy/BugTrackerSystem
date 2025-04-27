@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BugTracker.Controllers;
+using BugTracker.Web.Controllers;
 using BugTracker.Data;
 using BugTracker.Data.Models;
 using BugTracker.Data.Repositories;
-using BugTracker.Models.ViewModels.Issue;
+using BugTracker.Web.ViewModels.Issue;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace BugTrackerTests
+namespace BugTracker.Web.Tests
 {
     public class IssueControllerTests
     {

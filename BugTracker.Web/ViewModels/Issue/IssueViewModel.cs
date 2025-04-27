@@ -1,27 +1,27 @@
 ﻿using System;
 
-namespace BugTracker.Models.ViewModels.Issue
+namespace BugTracker.Web.ViewModels.Issue
 {
-    public class IssueDetailsViewModel
+    public class IssueViewModel
     {
         public int Id { get; init; }
         public string Title { get; init; } = null!;
-        public string? Description { get; init; }
+        public string Description { get; init; }
         public DateTime Created { get; init; }
         public DateTime? Updated { get; init; }
         public string CreatedBy { get; init; } = null!;
-        public string? AssignedTo { get; init; }
+        public string AssignedTo { get; init; }
         public string Priority { get; init; } = null!;
         public string Status { get; init; } = null!;
 
-        public override bool Equals(object? o)
+        public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, o)) return false;
-            if (ReferenceEquals(this, o)) return true;
-            return o.GetType() == GetType() && Equals((IssueDetailsViewModel) o);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals((IssueViewModel) obj);
         }
 
-        protected bool Equals(IssueDetailsViewModel other)
+        protected bool Equals(IssueViewModel other)
         {
             return Id == other.Id && Title == other.Title && Description == other.Description &&
                    Created.Equals(other.Created) && Nullable.Equals(Updated, other.Updated) &&

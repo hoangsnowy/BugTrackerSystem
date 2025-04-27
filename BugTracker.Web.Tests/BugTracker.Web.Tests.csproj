@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-
+        <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BugTracker\BugTracker.csproj" />
+      <ProjectReference Include="..\BugTracker.Web\BugTracker.Web.csproj" />
     </ItemGroup>
 
 </Project>

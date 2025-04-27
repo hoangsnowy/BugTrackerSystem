@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BugTracker.Models.Attributes
+namespace BugTracker.Data.Attributes
 {
     public class UpdateDateIsEarlierThanAdditionDateAttribute : ValidationAttribute
     {
@@ -11,7 +11,7 @@ namespace BugTracker.Models.Attributes
         
         public override bool IsValid(object value)
         {
-            return value is BugTracker.Data.Models.Issue issue && issue.Created <= issue.Updated;
+            return value is Models.Issue issue && issue.Created <= issue.Updated;
         }
     }
 }

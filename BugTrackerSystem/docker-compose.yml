@@ -1,8 +1,8 @@
+version: '3.8'
+
 services:
   bugtracker:
-    build: 
-      context: .
-      dockerfile: BugTracker.Web/Dockerfile
+    build: ./BugTracker.Web
     ports:
       - "5000:80"
     environment:
