@@ -24,25 +24,5 @@ namespace BugTracker.Web.ViewModels.Issue
         public int PriorityId { get; init; }
 
         public IEnumerable<Priority> Priorities { get; init; }
-
-        public override bool Equals(object o)
-        {
-            if (ReferenceEquals(null, o)) return false;
-            if (ReferenceEquals(this, o)) return true;
-            return o.GetType() == GetType() && Equals((EditIssueViewModel) o);
-        }
-
-        protected bool Equals(EditIssueViewModel other)
-        {
-            return other.Priorities != null && Priorities != null && other.Users != null && Users != null &&
-                   Id == other.Id && Title == other.Title && Description == other.Description &&
-                   AssignedToId == other.AssignedToId && Users.SequenceEqual(other.Users) &&
-                   PriorityId == other.PriorityId && Priorities.SequenceEqual(other.Priorities);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Title, Description, AssignedToId, Users, PriorityId, Priorities);
-        }
     }
 }
