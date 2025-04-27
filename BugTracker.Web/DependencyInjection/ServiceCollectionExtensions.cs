@@ -48,10 +48,8 @@ namespace BugTracker.Web.DependencyInjection
 
         public static IServiceCollection AddDataRepositories(this IServiceCollection services)
         {
-            services.AddScoped<EfCoreRepository<Issue, ApplicationDbContext>, EfCoreIssueRepository>();
-            services.AddScoped<EfCoreRepository<User, ApplicationDbContext>, EfCoreUserRepository>();
-            services.AddScoped<EfCoreRepository<Status, ApplicationDbContext>, EfCoreStatusRepository>();
-            services.AddScoped<EfCoreRepository<Priority, ApplicationDbContext>, EfCorePriorityRepository>();
+            services.AddScoped<GenericRepository<Issue, ApplicationDbContext>, IssueRepository>();
+            services.AddScoped<GenericRepository<User, ApplicationDbContext>, UserRepository>();
             return services;
         }
 
@@ -59,7 +57,6 @@ namespace BugTracker.Web.DependencyInjection
         {
             services.AddScoped<IIssueService, IssueService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPriorityService, PriorityService>();
             return services;
         }
     }

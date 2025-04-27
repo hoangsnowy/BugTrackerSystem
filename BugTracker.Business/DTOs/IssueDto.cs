@@ -1,4 +1,6 @@
-﻿namespace BugTracker.Business.DTOs
+﻿using BugTracker.Business.Enums;
+
+namespace BugTracker.Business.DTOs
 {
     public class IssueDto
     {
@@ -10,10 +12,8 @@
         public string CreatedBy { get; set; }
         public string AssignedTo { get; set; }
         public string AssignedToId { get; set; }
-        public int PriorityId { get; set; }
-        public string Priority { get; set; }
-        public int StatusId { get; set; }
-        public string Status { get; set; }
+        public Priority Priority { get; set; }
+        public Status Status { get; set; }
     }
 
     public class CreateIssueDto
@@ -21,7 +21,7 @@
         public string Title { get; set; }
         public string Description { get; set; }
         public string AssignedToId { get; set; }
-        public int PriorityId { get; set; }
+        public Priority Priority { get; set; }
     }
 
     public class EditIssueDto : CreateIssueDto

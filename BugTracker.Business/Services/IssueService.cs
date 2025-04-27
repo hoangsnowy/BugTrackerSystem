@@ -1,4 +1,5 @@
 ﻿using BugTracker.Business.DTOs;
+using BugTracker.Business.Enums;
 using BugTracker.Data;
 using BugTracker.Data.Models;
 using BugTracker.Data.Repositories;
@@ -8,11 +9,11 @@ namespace BugTracker.Business.Services
 {
     public class IssueService : IIssueService
     {
-        private readonly EfCoreRepository<Issue, ApplicationDbContext> _issues;
+        private readonly GenericRepository<Issue, ApplicationDbContext> _issues;
         private readonly ILogger<IssueService> _logger;
 
         public IssueService(
-            EfCoreRepository<Issue, ApplicationDbContext> issues,
+            GenericRepository<Issue, ApplicationDbContext> issues,
             ILogger<IssueService> logger)
         {
             _issues = issues;
@@ -32,14 +33,14 @@ namespace BugTracker.Business.Services
                 CreatedBy = i.CreatedBy.Login,
                 AssignedTo = i.AssignedTo?.Login,
                 AssignedToId = i.AssignedToId,
-                PriorityId = i.PriorityId,
-                Priority = i.Priority.Name,
-                StatusId = i.StatusId,
-                Status = i.Status.Name
+                Priority = (Priority)i.Priority,
+                Status = (Status)i.Status
             });
 
             if (string.IsNullOrWhiteSpace(search))
+            {
                 return dtos;
+            }
 
             return dtos.Where(x => x.Title.Contains(search, StringComparison.OrdinalIgnoreCase));
         }
@@ -58,10 +59,8 @@ namespace BugTracker.Business.Services
                 CreatedBy = i.CreatedBy.Login,
                 AssignedTo = i.AssignedTo?.Login,
                 AssignedToId = i.AssignedToId,
-                PriorityId = i.PriorityId,
-                Priority = i.Priority.Name,
-                StatusId = i.StatusId,
-                Status = i.Status.Name
+                Priority = (Priority)i.Priority,
+                Status = (Status)i.Status
             };
         }
 
@@ -74,8 +73,8 @@ namespace BugTracker.Business.Services
                 Created = DateTime.UtcNow,
                 CreatedById = creatorId,
                 AssignedToId = form.AssignedToId,
-                PriorityId = form.PriorityId,
-                StatusId = 1 // default
+                Priority = (byte)form.Priority,
+                Status = (byte)Status.Open
             };
             await _issues.Create(issue);
             _logger.LogInformation("Issue #{IssueId} created", issue.Id);
@@ -90,22 +89,22 @@ namespace BugTracker.Business.Services
                 Description = form.Description,
                 Updated = DateTime.UtcNow,
                 AssignedToId = form.AssignedToId,
-                PriorityId = form.PriorityId
+                Priority = (byte)form.Priority
             };
             await _issues.Update(issue);
             _logger.LogInformation("Issue #{IssueId} updated", issue.Id);
         }
 
-        public async Task ChangeStatusAsync(int issueId, int statusId)
+        public async Task ChangeStatusAsync(int issueId, Status status)
         {
             var issue = new Issue
             {
                 Id = issueId,
-                StatusId = statusId,
+                Status = (byte)status,
                 Updated = DateTime.UtcNow
             };
             await _issues.Update(issue);
-            _logger.LogInformation("Issue #{IssueId} status changed to #{StatusId}", issueId, statusId);
+            _logger.LogInformation("Issue #{IssueId} status changed to #{Status}", issueId, status);
         }
 
         public async Task DeleteAsync(int issueId)

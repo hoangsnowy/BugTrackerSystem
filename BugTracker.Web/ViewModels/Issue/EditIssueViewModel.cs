@@ -19,8 +19,8 @@ namespace BugTracker.Web.ViewModels.Issue
         public IEnumerable<UserDto> Users { get; init; }
 
         [Required(ErrorMessage = "The {0} should be specified")]
-        public int PriorityId { get; init; }
+        public byte PriorityId { get; init; }
 
-        public IEnumerable<PriorityDto> Priorities { get; init; }
+        public IEnumerable<PriorityViewModel> Priorities { get; init; }
     }
 }

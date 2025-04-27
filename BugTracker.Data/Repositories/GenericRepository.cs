@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Data.Repositories
 {
-    public abstract class EfCoreRepository<TEntity, TContext> : IRepository<TEntity>
+    public abstract class GenericRepository<TEntity, TContext> : IRepository<TEntity>
         where TEntity : class, IEntity
         where TContext : DbContext
     {
         protected readonly TContext Context;
 
-        protected EfCoreRepository(TContext context) => Context = context;
+        protected GenericRepository(TContext context) => Context = context;
 
         public virtual async Task<TEntity> Create(TEntity entity)
         {

@@ -1,6 +1,4 @@
 ﻿using BugTracker.Data.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BugTracker.Data.Repositories
 {

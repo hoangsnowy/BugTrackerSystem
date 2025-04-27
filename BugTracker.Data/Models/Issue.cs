@@ -1,9 +1,5 @@
-﻿using BugTracker.Data.Attributes;
-using System;
-
-namespace BugTracker.Data.Models
+﻿namespace BugTracker.Data.Models
 {
-    [UpdateDateIsEarlierThanAdditionDate]
     public class Issue : IEntity
     {
         public int Id { get; set; }
@@ -19,10 +15,8 @@ namespace BugTracker.Data.Models
         public string? AssignedToId { get; set; }
         public virtual User? AssignedTo { get; set; }
         
-        public int PriorityId { get; set; }
-        public virtual Priority Priority { get; set; } = null!;
+        public byte Priority { get; set; } 
         
-        public int StatusId { get; set; }
-        public virtual Status Status { get; set; } = null!;
+        public byte Status { get; set; }
     }
 }

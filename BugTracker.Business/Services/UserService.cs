@@ -7,9 +7,9 @@ namespace BugTracker.Business.Services
 {
     public class UserService : IUserService
     {
-        private readonly EfCoreRepository<User, ApplicationDbContext> _repo;
+        private readonly GenericRepository<User, ApplicationDbContext> _repo;
 
-        public UserService(EfCoreRepository<User, ApplicationDbContext> repo)
+        public UserService(GenericRepository<User, ApplicationDbContext> repo)
         {
             _repo = repo;
         }
