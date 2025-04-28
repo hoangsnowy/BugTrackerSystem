@@ -20,7 +20,7 @@ namespace BugTracker.Business.Services
             return users.Select(u => new UserDto
             {
                 Id = u.Id,
-                Login = u.Login
+                UserName = u.UserName
             }).ToList();
         }
 
@@ -30,7 +30,7 @@ namespace BugTracker.Business.Services
             return u is null ? null : new UserDto
             {
                 Id = u.Id,
-                Login = u.Login
+                UserName = u.UserName
             };
         }
     }

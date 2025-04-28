@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +25,7 @@ namespace BugTracker.Web.Controllers
         private readonly UserManager<User> _userManager;
 
         private static readonly ImmutableHashSet<PriorityViewModel> priorities = EnumHelper.GetAllEnumValues<Priority>()
-                .Select(q => new PriorityViewModel((byte)q, q.ToString()))
+                .Select(q => new PriorityViewModel(q.ToString(), q.ToString()))
                 .ToImmutableHashSet();
 
         public IssueController(
@@ -67,7 +66,6 @@ namespace BugTracker.Web.Controllers
         {
             var users = await _userService.GetAllAsync();      // returns UserDto
             
-
             var model = new CreateIssueViewModel
             {
                 Users = users,
@@ -89,7 +87,7 @@ namespace BugTracker.Web.Controllers
                 Title = formData.Title,
                 Description = formData.Description,
                 AssignedToId = formData.AssignedToId,
-                Priority = (Priority)formData.PriorityId
+                Priority = Enum.Parse<Priority>(formData.PriorityId)
             };
 
             await _issueService.CreateAsync(dto, currentUser.Id);
@@ -144,7 +142,7 @@ namespace BugTracker.Web.Controllers
                 Title = d.Title,
                 Description = d.Description,
                 AssignedToId = d.AssignedToId,
-                PriorityId = (byte)d.Priority,
+                PriorityId = ((byte)d.Priority).ToString(),
                 Users = users,
                 Priorities = priorities
             };
@@ -164,7 +162,7 @@ namespace BugTracker.Web.Controllers
                 Title = formData.Title,
                 Description = formData.Description,
                 AssignedToId = formData.AssignedToId,
-                Priority = (Priority)formData.PriorityId
+                Priority = Enum.Parse<Priority>(formData.PriorityId)
             };
 
             await _issueService.UpdateAsync(dto);

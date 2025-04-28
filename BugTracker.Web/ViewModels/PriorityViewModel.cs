@@ -1,3 +1,3 @@
 ﻿namespace BugTracker.Web.ViewModels;
 
-public record PriorityViewModel(byte Value, string Name);
+public record PriorityViewModel(string Id, string Name);

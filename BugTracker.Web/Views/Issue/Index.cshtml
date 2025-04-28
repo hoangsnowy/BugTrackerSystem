@@ -1,102 +1,105 @@
 ﻿@using BugTracker.Web.ViewModels.Issue
+@using BugTracker.Business.Enums
+
 @model List<IssueViewModel>
 
 @{
-    ViewData["Title"] = "Issues";
+  ViewData["Title"] = "Issues";
+
+  // Map priority string → CSS class
+  var priClasses = new Dictionary<string, string>
+      {
+        ["Major"] = "badge-danger",              // Priority.Major
+        ["Medium"] = "badge-warning text-dark",   // Priority.Medium
+        ["Minor"] = "badge-secondary"            // Priority.Minor
+      };
+
+  // Map status string → CSS class
+  var statClasses = new Dictionary<string, string>
+      {
+        ["Open"] = "badge-success",          // Status.Open
+        ["InProgress"] = "badge-primary",          // Status.InProgress
+        ["Resolved"] = "badge-info text-dark",   // Status.Resolved
+        ["Closed"] = "badge-dark"              // Status.Closed
+      };
 }
 
 <div>
-    <form asp-controller="Issue" asp-action="Index">
-        <div class="input-group">
-            <input name="SearchString" type="search" class="form-control" placeholder="Search..." aria-label="Search..." aria-describedby="search-addon"/>
-            <button type="submit" class="input-group-text">
-                <i class="fas fa-search"></i>
-            </button>
-            <a class="input-group-text" href="@Url.Action("CreateIssue", "Issue")", role="button">
-                <i class="fas fa-plus"></i>
-            </a>
-        </div>
-    </form>
+  <form asp-controller="Issue" asp-action="Index">
+    <div class="input-group">
+      <input name="SearchString" type="search" class="form-control" placeholder="Search..." aria-label="Search..." aria-describedby="search-addon" />
+      <button type="submit" class="input-group-text">
+        <i class="fas fa-search"></i>
+      </button>
+      <a class="input-group-text" href="@Url.Action("CreateIssue", "Issue")" , role="button">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </form>
 </div>
 
 <table class="table table-responsive-xl">
-    <thead>
+  <thead>
     <tr>
-        <th>Id</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Assignee</th>
-        <th>Priority</th>
-        <th>Status</th>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Assignee</th>
+      <th>Priority</th>
+      <th>Status</th>
     </tr>
-    </thead>
-    <tbody>
+  </thead>
+  <tbody>
     @foreach (var issue in Model)
     {
-        <tr class="alert" role="alert">
-            <td>
-                <span>#@issue.Id</span>
-            </td>
-            <td>
-                <div class="email">
-                    <span>
-                        <a href="@Url.Action("DetailIssue", "Issue", new {issueId = issue.Id})">@issue.Title</a>
-                    </span>
-                    @if (issue.Updated != null)
-                    {
-                        <span>updated @issue.Updated</span>
-                    }
-                    else
-                    {
-                        <span>there are no updates</span>
-                    }
-                </div>
-            </td>
-            <td>
-                <div class="email">
-                    <span>@issue.CreatedBy</span>
-                    <span>created @issue.Created</span>
-                </div>
-            </td>
-            <td>
-                <div>
-                    @if (issue.AssignedTo == null)
-                    {
-                        <span>—</span>
-                    }
-                    else
-                    {
-                        <span>@issue.AssignedTo</span>
-                    }
-                </div>
-            </td>
-            <td class="status">
-                @switch (issue.Priority)
-                {
-                    case "ASAP":
-                    case "High":
-                        <span class="high">@issue.Priority</span>
-                        break;
-                    case "Normal":
-                        <span class="normal">@issue.Priority</span>
-                        break;
-                    case "Low":
-                        <span class="low">@issue.Priority</span>
-                        break;
-                }
-            </td>
-            <td class="status">
-                @switch (issue.Status)
-                {
-                    case "Closed":
-                        <span class="low">@issue.Status</span>
-                        break;
-                    case "Open":
-                        <span class="normal">@issue.Status</span>
-                        break;
-                }
-            </td>
-        </tr>
+      <tr class="alert" role="alert">
+        <td>
+          <span>#@issue.Id</span>
+        </td>
+        <td>
+          <div class="email">
+            <span>
+              <a href="@Url.Action("DetailIssue", "Issue", new {issueId = issue.Id})">@issue.Title</a>
+            </span>
+            @if (issue.Updated != null)
+            {
+              <span>updated @issue.Updated</span>
+            }
+            else
+            {
+              <span>there are no updates</span>
+            }
+          </div>
+        </td>
+        <td>
+          <div class="email">
+            <span>@issue.CreatedBy</span>
+            <span>created @issue.Created</span>
+          </div>
+        </td>
+        <td>
+          <div>
+            @if (issue.AssignedTo == null)
+            {
+              <span>—</span>
+            }
+            else
+            {
+              <span>@issue.AssignedTo</span>
+            }
+          </div>
+        </td>
+        <td class="text-center">
+          <span class="badge @(priClasses.GetValueOrDefault(issue.Priority, "badge-light text-dark"))">
+            @issue.Priority
+          </span>
+        </td>
+        <td class="text-center">
+          <span class="badge @(statClasses.GetValueOrDefault(issue.Status, "badge-light text-dark"))">
+            @issue.Status
+          </span>
+        </td>
+      </tr>
     }
-    </tbody>
+  </tbody>
 </table>

@@ -1,4 +1,6 @@
 ﻿using BugTracker.Business.DTOs;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,16 +11,21 @@ namespace BugTracker.Web.ViewModels.Issue
         [Required(ErrorMessage = "The {0} of issue is not specified")]
         [StringLength(100, MinimumLength = 5,
             ErrorMessage = "The length of the {0} should be from {2} to {1} characters")]
-        public string Title { get; init; } = null!;
+        public string Title { get; set; }
 
-        public string Description { get; init; } = null!;
+        public string Description { get; set; }
 
-        public string AssignedToId { get; init; }
-        public IEnumerable<UserDto> Users { get; init; }
+        public string AssignedToId { get; set; }
+
+        [BindNever]
+        [ValidateNever]
+        public IEnumerable<UserDto> Users { get; set; }
 
         [Required(ErrorMessage = "The {0} should be specified")]
-        public byte PriorityId { get; init; }
+        public string PriorityId { get; set; }
 
-        public IEnumerable<PriorityViewModel> Priorities { get; init; }
+        [BindNever]
+        [ValidateNever]
+        public IEnumerable<PriorityViewModel> Priorities { get; set; }
     }
 }

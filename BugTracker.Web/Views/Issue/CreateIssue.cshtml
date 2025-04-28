@@ -18,7 +18,7 @@
                             <td>
                                 <div>
                                     @Html.LabelFor(Model => Model.AssignedToId, "Assignee:")
-                                    @Html.DropDownListFor(Model => Model.AssignedToId, new SelectList(Model.Users, "Id", "Login"), "-Select assignee-", new {@class = "form-control"})
+                                    @Html.DropDownListFor(Model => Model.AssignedToId, new SelectList(Model.Users, "Id", "UserName"), "-Select assignee-", new {@class = "form-control"})
                                 </div>
                                 <div class="text-danger"> @Html.ValidationMessageFor(Model => Model.Users)</div>
 
