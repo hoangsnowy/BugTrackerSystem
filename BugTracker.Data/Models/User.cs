@@ -6,6 +6,6 @@ namespace BugTracker.Data.Models
     {
         public override string Id { get; set; } = null!;
 
-        public string Login { get; set; } = null!;
+        public string Login { get; set; }
     }
 }

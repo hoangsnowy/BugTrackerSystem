@@ -1,4 +1,5 @@
-﻿using BugTracker.Web.DependencyInjection;
+﻿using AspNetCore.Identity.Extensions;
+using BugTracker.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +27,12 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+else
+{
+    app.ApplyMigrations();
+    await app.SeedDataAsync();
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -33,13 +40,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // 5. Routes
-app.MapAreaControllerRoute(
-    name: "Identity",
-    areaName: "Identity",
-    pattern: "Identity/{controller=Account}/{action=Login}/{id?}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Issue}/{action=Index}/{id?}");
 app.MapRazorPages();
+
 
 await app.RunAsync();

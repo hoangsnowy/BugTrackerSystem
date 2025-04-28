@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using BugTracker.Data.Models;
+using BugTracker.Web.Extensions;
 
 namespace BugTracker.Areas.Identity.Pages.Account
 {
@@ -71,7 +72,7 @@ namespace BugTracker.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password,
+                var result = await _signInManager.PasswordSignInByEmailAsync(Input.Email, Input.Password,
                     Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)

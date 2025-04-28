@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace BugTracker.Web.DependencyInjection
+namespace BugTracker.Web.Extensions
 {
     public static class ServiceCollectionExtensions
     {
