@@ -1,6 +1,5 @@
 ﻿using BugTracker.Business.DTOs;
 using BugTracker.Business.Enums;
-using BugTracker.Data;
 using BugTracker.Data.Models;
 using BugTracker.Data.Repositories;
 using Microsoft.Extensions.Logging;
@@ -9,20 +8,19 @@ namespace BugTracker.Business.Services
 {
     public class IssueService : IIssueService
     {
-        private readonly GenericRepository<Issue, ApplicationDbContext> _issues;
+        private readonly IIssueRepository _issuesRepository;
         private readonly ILogger<IssueService> _logger;
 
-        public IssueService(
-            GenericRepository<Issue, ApplicationDbContext> issues,
+        public IssueService(IIssueRepository issuesRepository,
             ILogger<IssueService> logger)
         {
-            _issues = issues;
+            _issuesRepository = issuesRepository;
             _logger = logger;
         }
 
         public async Task<IEnumerable<IssueDto>> GetAllAsync(string search = null)
         {
-            var entities = await _issues.GetAllObjects();
+            var entities = await _issuesRepository.GetAllObjects();
             var dtos = entities.Select(i => new IssueDto
             {
                 Id = i.Id,
@@ -47,7 +45,7 @@ namespace BugTracker.Business.Services
 
         public async Task<IssueDto> GetByIdAsync(int id)
         {
-            var i = await _issues.GetObjectById(id);
+            var i = await _issuesRepository.GetObjectById(id);
             if (i == null) return null;
             return new IssueDto
             {
@@ -76,7 +74,7 @@ namespace BugTracker.Business.Services
                 Priority = (byte)form.Priority,
                 Status = (byte)Status.Open
             };
-            await _issues.Create(issue);
+            await _issuesRepository.Create(issue);
             _logger.LogInformation("Issue #{IssueId} created", issue.Id);
         }
 
@@ -91,25 +89,19 @@ namespace BugTracker.Business.Services
                 AssignedToId = form.AssignedToId,
                 Priority = (byte)form.Priority
             };
-            await _issues.Update(issue);
+            await _issuesRepository.Update(issue);
             _logger.LogInformation("Issue #{IssueId} updated", issue.Id);
         }
 
         public async Task ChangeStatusAsync(int issueId, Status status)
         {
-            var issue = new Issue
-            {
-                Id = issueId,
-                Status = (byte)status,
-                Updated = DateTime.UtcNow
-            };
-            await _issues.Update(issue);
+            await _issuesRepository.ChangeStatus(issueId, (byte)status);
             _logger.LogInformation("Issue #{IssueId} status changed to #{Status}", issueId, status);
         }
 
         public async Task DeleteAsync(int issueId)
         {
-            await _issues.Delete(issueId);
+            await _issuesRepository.Delete(issueId);
             _logger.LogInformation("Issue #{IssueId} deleted", issueId);
         }
     }

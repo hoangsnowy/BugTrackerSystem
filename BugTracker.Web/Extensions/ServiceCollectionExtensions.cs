@@ -48,7 +48,7 @@ namespace BugTracker.Web.Extensions
 
         public static IServiceCollection AddDataRepositories(this IServiceCollection services)
         {
-            services.AddScoped<GenericRepository<Issue, ApplicationDbContext>, IssueRepository>();
+            services.AddScoped<IIssueRepository, IssueRepository>();
             services.AddScoped<GenericRepository<User, ApplicationDbContext>, UserRepository>();
             return services;
         }

@@ -142,7 +142,7 @@ namespace BugTracker.Web.Controllers
                 Title = d.Title,
                 Description = d.Description,
                 AssignedToId = d.AssignedToId,
-                PriorityId = ((byte)d.Priority).ToString(),
+                PriorityId = d.Priority.ToString(),
                 Users = users,
                 Priorities = priorities
             };

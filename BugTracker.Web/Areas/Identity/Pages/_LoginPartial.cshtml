@@ -2,11 +2,8 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @{
-  // Lấy user một cách async + null‐safe
   var currentUser = await UserManager.GetUserAsync(User);
-  // Fallback ra chuỗi rỗng nếu null
-  var loginName = currentUser?.Login ?? User.Identity?.Name ?? "";
-  // Tạo returnUrl trước để tránh vấn đề quote
+  var loginName = currentUser?.UserName ?? User.Identity?.Name ?? "";
   var returnUrl = Url.Action("Index", "Issue", new { area = "" });
 }
 
