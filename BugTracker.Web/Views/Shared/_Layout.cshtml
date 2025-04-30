@@ -1,43 +1,53 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"]</title>
-    <link rel="shortcut icon" href="~/images/bug.ico" type="image/x-icon">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="~/css/navbar.css"/>
-    <link rel="stylesheet" href="~/css/style.css"/>
-</head>
-<body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Issue" asp-action="Index"><img src="~/images/bug.png" alt=""> Bug Tracker</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Issue" asp-action="Index">Issues</a>
-                    </li>
-                </ul>
-                <partial name="~/Areas/Identity/Pages/_LoginPartial.cshtml"/>
-            </div>
-        </div>
-    </nav>
-</header>
-<div class="container">
-    <main>
-        @RenderBody()
-    </main>
-</div>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - Bug Tracker</title>
+  <link rel="shortcut icon" href="~/images/bug.ico" type="image/x-icon" />
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet" />
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+  @await RenderSectionAsync("Head", required: false)
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom mb-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Issue" asp-action="Index">
+        <i class="fas fa-bug fa-lg me-2"></i>
+        Bug Tracker
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between" id="navbarSupportedContent">
+        <ul class="navbar-nav flex-grow-1 mb-2 mb-sm-0">
+          <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Issue" asp-action="Index">Issues</a>
+          </li>
+        </ul>
+        <partial name="~/Areas/Identity/Pages/_LoginPartial.cshtml" />
+      </div>
+    </div>
+  </nav>
+
+  <main class="container flex-fill">
+    @RenderBody()
+  </main>
+
+  <footer class="bg-light text-center py-3 mt-auto">
+    <small class="text-muted">&copy; @DateTime.Now.Year - Bug Tracker</small>
+  </footer>
+
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

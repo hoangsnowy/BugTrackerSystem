@@ -119,12 +119,12 @@ namespace BugTracker.Web.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ChangeIssueStatus(int issueId, string status)
+        [HttpPost]
+        public async Task<IActionResult> ChangeIssueStatus(int issueId, string newStatus)
         {
-            await _issueService.ChangeStatusAsync(issueId, Enum.Parse<Status>(status));
-            _logger.LogInformation("Changed status of issue {IssueId} to {StatusId}", issueId, status);
-            return RedirectToAction(nameof(DetailIssue), new { issueId });
+            await _issueService.ChangeStatusAsync(issueId, Enum.Parse<Status>(newStatus));
+            _logger.LogInformation("Changed status of issue {IssueId} to {StatusId}", issueId, newStatus);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
