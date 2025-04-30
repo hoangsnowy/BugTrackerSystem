@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+
 namespace BugTracker.TestSupport
 {
     public class LogEntry

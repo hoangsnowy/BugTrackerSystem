@@ -50,7 +50,7 @@ namespace BugTracker.Business.Services
         public async Task ChangeStatusAsync(int issueId, Status status)
         {
             var issue = IssueMapper.ChangeStatus(issueId, status);
-            await _issuesRepository.Update(issue);
+            await _issuesRepository.ChangeStatus(issueId, (byte)status);
             _logger.LogInformation("Issue #{IssueId} status changed to #{Status}", issueId, status);
         }
 

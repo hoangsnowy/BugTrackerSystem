@@ -2,11 +2,11 @@
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using BugTracker.Business.DTOs;
 using BugTracker.Business.Enums;
 using BugTracker.Business.Helpers;
 using BugTracker.Business.Services;
 using BugTracker.Data.Models;
+using BugTracker.Web.Mappers;
 using BugTracker.Web.ViewModels;
 using BugTracker.Web.ViewModels.Issue;
 using Microsoft.AspNetCore.Authorization;
@@ -23,10 +23,10 @@ namespace BugTracker.Web.Controllers
         private readonly IIssueService _issueService;
         private readonly IUserService _userService;
         private readonly UserManager<User> _userManager;
-
-        private static readonly ImmutableHashSet<PriorityViewModel> priorities = EnumHelper.GetAllEnumValues<Priority>()
-                .Select(q => new PriorityViewModel(q.ToString(), q.ToString()))
-                .ToImmutableHashSet();
+        private static readonly ImmutableHashSet<PriorityViewModel> priorities =
+            EnumHelper.GetAllEnumValues<Priority>()
+                      .Select(q => new PriorityViewModel(q.ToString(), q.ToString()))
+                      .ToImmutableHashSet();
 
         public IssueController(
             ILogger<IssueController> logger,
@@ -45,33 +45,19 @@ namespace BugTracker.Web.Controllers
         public async Task<IActionResult> Index(string searchString = null)
         {
             var dtos = await _issueService.GetAllAsync(searchString);
-            var model = dtos.Select(d => new IssueViewModel
-            {
-                Id = d.Id,
-                Title = d.Title,
-                Description = d.Description,
-                Created = d.Created,
-                Updated = d.Updated,
-                CreatedBy = d.CreatedBy,
-                AssignedTo = d.AssignedTo,
-                Priority = d.Priority.ToString(),
-                Status = d.Status.ToString()
-            }).ToList();
-
+            var model = IssueViewModelMapper.ToListViewModels(dtos);
             return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> CreateIssue()
         {
-            var users = await _userService.GetAllAsync();      // returns UserDto
-            
+            var users = await _userService.GetAllAsync();
             var model = new CreateIssueViewModel
             {
                 Users = users,
                 Priorities = priorities
             };
-
             return View(model);
         }
 
@@ -82,14 +68,7 @@ namespace BugTracker.Web.Controllers
                 return RedirectToAction(nameof(CreateIssue));
 
             var currentUser = await _userManager.GetUserAsync(User);
-            var dto = new CreateIssueDto
-            {
-                Title = formData.Title,
-                Description = formData.Description,
-                AssignedToId = formData.AssignedToId,
-                Priority = Enum.Parse<Priority>(formData.PriorityId)
-            };
-
+            var dto = IssueViewModelMapper.ToCreateDto(formData, currentUser.Id);
             await _issueService.CreateAsync(dto, currentUser.Id);
             _logger.LogInformation("Created issue by user {User}", currentUser.Id);
 
@@ -99,23 +78,11 @@ namespace BugTracker.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> DetailIssue(int issueId)
         {
-            var d = await _issueService.GetByIdAsync(issueId);
-            if (d == null)
+            var dto = await _issueService.GetByIdAsync(issueId);
+            if (dto == null)
                 return RedirectToAction(nameof(Index));
 
-            var model = new IssueDetailsViewModel
-            {
-                Id = d.Id,
-                Title = d.Title,
-                Description = d.Description,
-                Created = d.Created,
-                Updated = d.Updated,
-                CreatedBy = d.CreatedBy,
-                AssignedTo = d.AssignedTo,
-                Priority = d.Priority.ToString(),
-                Status = d.Status.ToString()
-            };
-
+            var model = IssueViewModelMapper.ToDetailsViewModel(dto);
             return View(model);
         }
 
@@ -130,23 +97,12 @@ namespace BugTracker.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditIssue(int issueId)
         {
-            var d = await _issueService.GetByIdAsync(issueId);
-            if (d == null)
+            var dto = await _issueService.GetByIdAsync(issueId);
+            if (dto == null)
                 return RedirectToAction(nameof(Index));
 
             var users = await _userService.GetAllAsync();
-
-            var model = new EditIssueViewModel
-            {
-                Id = d.Id,
-                Title = d.Title,
-                Description = d.Description,
-                AssignedToId = d.AssignedToId,
-                PriorityId = d.Priority.ToString(),
-                Users = users,
-                Priorities = priorities
-            };
-
+            var model = IssueViewModelMapper.ToEditViewModel(dto, users, priorities);
             return View(model);
         }
 
@@ -156,18 +112,9 @@ namespace BugTracker.Web.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(EditIssue), new { issueId = formData.Id });
 
-            var dto = new EditIssueDto
-            {
-                Id = formData.Id,
-                Title = formData.Title,
-                Description = formData.Description,
-                AssignedToId = formData.AssignedToId,
-                Priority = Enum.Parse<Priority>(formData.PriorityId)
-            };
-
+            var dto = IssueViewModelMapper.ToEditDto(formData);
             await _issueService.UpdateAsync(dto);
             _logger.LogInformation("Updated issue {IssueId}", dto.Id);
-
             return RedirectToAction(nameof(Index));
         }
 
