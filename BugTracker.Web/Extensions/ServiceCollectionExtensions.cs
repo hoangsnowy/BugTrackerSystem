@@ -15,7 +15,6 @@ namespace BugTracker.Web.Extensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
-            // DbContext
             var connectionString = config.GetConnectionString("DefaultConnection")
                                    ?? throw new InvalidOperationException("DefaultConnection not found.");
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -24,7 +23,6 @@ namespace BugTracker.Web.Extensions
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
-            // Identity
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;

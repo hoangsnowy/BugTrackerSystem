@@ -12,7 +12,6 @@ namespace BugTracker.Web.DesignTimeFactories
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            // Lấy đường dẫn tới thư mục chứa appsettings.json của Web project
             var basePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "BugTracker.Web"));
 
             var config = new ConfigurationBuilder()

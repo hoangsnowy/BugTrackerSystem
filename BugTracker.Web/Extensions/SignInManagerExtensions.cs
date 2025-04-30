@@ -13,14 +13,12 @@ namespace BugTracker.Web.Extensions
             bool lockoutOnFailure = false
         ) where TUser : class
         {
-            // Tìm user theo email
             var user = await signInManager.UserManager.FindByEmailAsync(email);
             if (user == null)
             {
                 return SignInResult.Failed;
             }
 
-            // Đăng nhập luôn
             return await signInManager.PasswordSignInAsync(
                 user, password, isPersistent, lockoutOnFailure
             );

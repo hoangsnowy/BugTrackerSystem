@@ -11,7 +11,7 @@
   </div>
   <div class="card shadow mb-4">
     <div class="card-body">
-      <form method="post" enctype="multipart/form-data">
+      <form asp-action="CreateIssue" asp-controller="Issue" method="post" enctype="multipart/form-data">
         <div class="table-responsive mb-3">
           <table class="table table-bordered">
             <thead>
@@ -36,11 +36,16 @@
                     <span class="text-danger">@Html.ValidationMessageFor(m => m.Title)</span>
                   </div>
                   <div class="mb-3">
-                    <input type="hidden" asp-for="Description" id="Description" />
-                    <div id="quillEditor" style="height:200px;">
-                     @Html.Raw(Model.Description)
+                    @Html.LabelFor(m => m.Description, new { @class = "form-label" })
+                    @Html.HiddenFor(m => m.Description, new { id = "Description" })
+                    <div id="quillEditor" class="form-control" style="height:200px;">
+                      @Html.Raw(Model.Description)
                     </div>
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.Description)</div>
+                    @Html.ValidationMessageFor(
+                           m => m.Description,
+                           "",
+                           new { @class = "invalid-feedback d-block" }
+                           )
                   </div>
                   <div class="mb-3">
                     @Html.LabelFor(m => m.PriorityId)
@@ -71,14 +76,16 @@
 
   <script>
     var quill = new Quill('#quillEditor', {
-      theme: 'snow',
-      placeholder: 'Type issue description…'
+      theme:      'snow',
+      placeholder:'Type issue description…'
     });
+
     var descInput = document.querySelector('input[name="Description"]');
 
-    quill.on('text-change', function(delta, oldDelta, source) {
+    descInput.value = quill.root.innerHTML;
+
+    quill.on('text-change', function() {
       descInput.value = quill.root.innerHTML;
     });
-    descInput.value = quill.root.innerHTML;
   </script>
 }

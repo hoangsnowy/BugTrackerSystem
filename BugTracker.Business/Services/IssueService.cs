@@ -28,8 +28,8 @@ namespace BugTracker.Business.Services
                 Description = i.Description,
                 Created = i.Created,
                 Updated = i.Updated,
-                CreatedBy = i.CreatedBy.Login,
-                AssignedTo = i.AssignedTo?.Login,
+                CreatedBy = i.CreatedBy?.UserName,
+                AssignedTo = i.AssignedTo?.UserName,
                 AssignedToId = i.AssignedToId,
                 Priority = (Priority)i.Priority,
                 Status = (Status)i.Status
@@ -54,8 +54,8 @@ namespace BugTracker.Business.Services
                 Description = i.Description,
                 Created = i.Created,
                 Updated = i.Updated,
-                CreatedBy = i.CreatedBy.Login,
-                AssignedTo = i.AssignedTo?.Login,
+                CreatedBy = i.CreatedBy.UserName,
+                AssignedTo = i.AssignedTo?.UserName,
                 AssignedToId = i.AssignedToId,
                 Priority = (Priority)i.Priority,
                 Status = (Status)i.Status
