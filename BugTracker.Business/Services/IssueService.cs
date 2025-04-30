@@ -1,6 +1,6 @@
 ﻿using BugTracker.Business.DTOs;
 using BugTracker.Business.Enums;
-using BugTracker.Data.Models;
+using BugTracker.Business.Mapers;
 using BugTracker.Data.Repositories;
 using Microsoft.Extensions.Logging;
 
@@ -20,82 +20,37 @@ namespace BugTracker.Business.Services
 
         public async Task<IEnumerable<IssueDto>> GetAllAsync(string search = null)
         {
-            var entities = await _issuesRepository.GetAllObjects();
-            var dtos = entities.Select(i => new IssueDto
-            {
-                Id = i.Id,
-                Title = i.Title,
-                Description = i.Description,
-                Created = i.Created,
-                Updated = i.Updated,
-                CreatedBy = i.CreatedBy?.UserName,
-                AssignedTo = i.AssignedTo?.UserName,
-                AssignedToId = i.AssignedToId,
-                Priority = (Priority)i.Priority,
-                Status = (Status)i.Status
-            });
-
-            if (string.IsNullOrWhiteSpace(search))
-            {
-                return dtos;
-            }
-
-            return dtos.Where(x => x.Title.Contains(search, StringComparison.OrdinalIgnoreCase));
+            var dtos = (await _issuesRepository.GetAllObjects())
+                           .Select(IssueMapper.ToDto);
+            return string.IsNullOrWhiteSpace(search)
+                ? dtos
+                : dtos.Where(x => x.Title.Contains(search, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<IssueDto> GetByIdAsync(int id)
         {
-            var i = await _issuesRepository.GetObjectById(id);
-            if (i == null) return null;
-            return new IssueDto
-            {
-                Id = i.Id,
-                Title = i.Title,
-                Description = i.Description,
-                Created = i.Created,
-                Updated = i.Updated,
-                CreatedBy = i.CreatedBy.UserName,
-                AssignedTo = i.AssignedTo?.UserName,
-                AssignedToId = i.AssignedToId,
-                Priority = (Priority)i.Priority,
-                Status = (Status)i.Status
-            };
+            var issue = await _issuesRepository.GetObjectById(id);
+            return issue == null ? null : IssueMapper.ToDto(issue);
         }
 
         public async Task CreateAsync(CreateIssueDto form, string creatorId)
         {
-            var issue = new Issue
-            {
-                Title = form.Title,
-                Description = form.Description,
-                Created = DateTime.UtcNow,
-                CreatedById = creatorId,
-                AssignedToId = form.AssignedToId,
-                Priority = (byte)form.Priority,
-                Status = (byte)Status.Open
-            };
+            var issue = IssueMapper.Create(form, creatorId);
             await _issuesRepository.Create(issue);
             _logger.LogInformation("Issue #{IssueId} created", issue.Id);
         }
 
         public async Task UpdateAsync(EditIssueDto form)
         {
-            var issue = new Issue
-            {
-                Id = form.Id,
-                Title = form.Title,
-                Description = form.Description,
-                Updated = DateTime.UtcNow,
-                AssignedToId = form.AssignedToId,
-                Priority = (byte)form.Priority
-            };
+            var issue = IssueMapper.Update(form);
             await _issuesRepository.Update(issue);
             _logger.LogInformation("Issue #{IssueId} updated", issue.Id);
         }
 
         public async Task ChangeStatusAsync(int issueId, Status status)
         {
-            await _issuesRepository.ChangeStatus(issueId, (byte)status);
+            var issue = IssueMapper.ChangeStatus(issueId, status);
+            await _issuesRepository.Update(issue);
             _logger.LogInformation("Issue #{IssueId} status changed to #{Status}", issueId, status);
         }
 
