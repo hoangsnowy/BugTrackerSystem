@@ -123,7 +123,7 @@ namespace BugTracker.Business.Tests.Services
         {
             await _service.ChangeStatusAsync(30, Status.Resolved);
 
-            await _repo.Received(1).Update(Arg.Is<Issue>(i => i.Id == 30 && (Status)i.Status == Status.Resolved));
+            await _repo.Received(1).ChangeStatus(30, (byte)Status.Resolved);
             Assert.AreEqual(1, _logger.LogEntries.Count(e => e.LogLevel == LogLevel.Information));
         }
 

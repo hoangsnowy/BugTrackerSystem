@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.Business.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.TestSupport", "BugTracker.TestSupport\BugTracker.TestSupport.csproj", "{F9EF931C-EFB4-4FF5-B686-2E02FC695F7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.Web.Tests", "BugTracker.Web.Tests\BugTracker.Web.Tests.csproj", "{D2351C7D-04F3-4E40-B9CD-134694339CFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{F9EF931C-EFB4-4FF5-B686-2E02FC695F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9EF931C-EFB4-4FF5-B686-2E02FC695F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9EF931C-EFB4-4FF5-B686-2E02FC695F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2351C7D-04F3-4E40-B9CD-134694339CFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2351C7D-04F3-4E40-B9CD-134694339CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2351C7D-04F3-4E40-B9CD-134694339CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2351C7D-04F3-4E40-B9CD-134694339CFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{FB3701A0-EF90-44AB-9257-44E1FC605B49} = {13EB7B90-AEB6-467E-9B64-5B279DC7C00A}
 		{8B3C8DF8-7E63-42BE-AF50-56131DB8BA72} = {DA6F1141-9DEE-4F86-A1A3-651C50AF6863}
 		{F9EF931C-EFB4-4FF5-B686-2E02FC695F7F} = {DA6F1141-9DEE-4F86-A1A3-651C50AF6863}
+		{D2351C7D-04F3-4E40-B9CD-134694339CFA} = {DA6F1141-9DEE-4F86-A1A3-651C50AF6863}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A89E7FA4-AE7E-46FA-81F6-C5C57910E5CC}
