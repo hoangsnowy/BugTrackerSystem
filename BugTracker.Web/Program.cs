@@ -7,7 +7,11 @@ using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Core infrastructure (DbContext, Identity)
-builder.Services.AddInfrastructure(builder.Configuration);
+// Only register MySQL‐backed DbContext if NOT in “IntegrationTests”:
+if (!builder.Environment.IsEnvironment("IntegrationTests"))
+{
+    builder.Services.AddInfrastructure(builder.Configuration);
+}
 
 // 2. Repositories, business services, and mapping
 builder.Services

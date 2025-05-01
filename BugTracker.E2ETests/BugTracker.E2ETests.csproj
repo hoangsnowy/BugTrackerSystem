@@ -13,11 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSubstitute" Version="5.3.0" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.52.0" />
+    <PackageReference Include="Microsoft.Playwright.MSTest" Version="1.52.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BugTracker.TestSupport\BugTracker.TestSupport.csproj" />
     <ProjectReference Include="..\BugTracker.Web\BugTracker.Web.csproj" />
   </ItemGroup>
 
@@ -35,5 +35,4 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
 </Project>
