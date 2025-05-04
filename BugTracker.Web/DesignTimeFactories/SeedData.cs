@@ -34,7 +34,6 @@ namespace BugTracker.Web.DesignTimeFactories
             await CreateUser("tester1", "tester1@example.com", "Password123!", "Tester");
             await CreateUser("dev1", "dev1@example.com", "Password123!", "Developer");
             await CreateUser("pm1", "pm1@example.com", "Password123!", "ProjectManager");
-            await CreateUser("admin1", "admin1@example.com", "Password123!", "Admin");
             // Tài khoản dùng cho automation test
             await CreateUser("autotest1", "autotest1@example.com", "Password123!", "Tester");
         }

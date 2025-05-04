@@ -1,7 +1,7 @@
 ﻿using BugTracker.E2ETests.Settings;
 using Microsoft.Playwright;
 
-namespace BugTracker.E2ETests.Pages
+namespace BugTracker.E2ETests.Pages.Account
 {
     /// <summary>
     /// Page object representing the login page of the BugTracker application.

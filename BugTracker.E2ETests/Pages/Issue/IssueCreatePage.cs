@@ -1,7 +1,7 @@
 ﻿using BugTracker.E2ETests.Settings;
 using Microsoft.Playwright;
 
-namespace BugTracker.E2ETests.Pages
+namespace BugTracker.E2ETests.Pages.Issue
 {
     /// <summary>
     /// Page object for the "Create Issue" form.
