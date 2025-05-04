@@ -95,7 +95,6 @@ dotnet run
 | tester1       | tester1@example.com   | Password123! | Tester                    |
 | dev1          | dev1@example.com      | Password123! | Developer                 |
 | pm1           | pm1@example.com       | Password123! | ProjectManager            |
-| admin1        | admin1@example.com    | Password123! | Admin                     |
 | autotest1     | autotest1@example.com | Password123! | Tester (E2E Automation)   |
 
 
