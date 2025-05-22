@@ -91,6 +91,61 @@ namespace BugTracker.E2ETests.Pages.Issue
         public Task<IReadOnlyList<string>> GetHeaderTitlesAsync() => _page.Locator("table thead tr th").AllTextContentsAsync();
 
         /// <summary>
+        /// Retrieves the ID of the last issue in the table
+        /// </summary>
+        /// <returns></returns>
+        public async Task<int> GetLastIssueIdAsync()
+        {
+            var rows = _page.Locator("table tbody tr");
+            var last = rows.Last;
+            var idText = await last.Locator("td").First.InnerTextAsync(); // e.g. "#123"
+            return int.Parse(idText.Replace("#", ""));
+        }
+
+        /// <summary>
+        /// Retrieves the title of the issue by its ID
+        /// </summary>
+        /// <param name="issueId"></param>
+        /// <returns></returns>
+        public async Task<string> GetTitleOfAsync(int issueId)
+        {
+            var rows = _page.Locator("table tbody tr");
+            var count = await rows.CountAsync();
+            for (int i = 0; i < count; i++)
+            {
+                var row = rows.Nth(i);
+                var idText = await row.Locator("td").First.InnerTextAsync();
+                if (int.TryParse(idText.Replace("#", ""), out var id) && id == issueId)
+                {
+                    return await row.Locator("td").Nth(1).InnerTextAsync();
+                }
+            }
+            throw new Exception($"Issue with ID {issueId} not found on index page.");
+        }
+
+        /// <summary>
+        /// Retrieves the status text of the issue by its ID
+        /// </summary>
+        /// <param name="issueId"></param>
+        /// <returns></returns>
+        public async Task<string> GetStatusOfAsync(int issueId)
+        {
+            var rows = _page.Locator("table tbody tr");
+            var count = await rows.CountAsync();
+            for (int i = 0; i < count; i++)
+            {
+                var row = rows.Nth(i);
+                var idText = await row.Locator("td").First.InnerTextAsync();
+                if (int.TryParse(idText.Replace("#", ""), out var id) && id == issueId)
+                {
+                    // Assuming status is in the 6th column (index 5)
+                    return await row.Locator("td").Nth(5).InnerTextAsync();
+                }
+            }
+            throw new Exception($"Issue with ID {issueId} not found on index page.");
+        }
+
+        /// <summary>
         /// Submits the logout form to sign out the user.
         /// </summary>
         public Task LogoutAsync()

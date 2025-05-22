@@ -122,5 +122,56 @@ namespace BugTracker.E2ETests.Tests
             Assert.IsTrue(statusText.Contains("Resolved"));
             await page.CloseAsync();
         }
+
+        [TestMethod]
+        public async Task TC04_07_FullIssueWorkflowDemo()
+        {
+            var page = await NewPageAsync();
+            var waitMs = 1000; // pause giữa các bước
+
+            // 1. Đăng nhập
+            var login = new LoginPage(page);
+            await login.NavigateAsync();
+            await login.LoginAsync(TestUser, TestPass);
+            await page.WaitForTimeoutAsync(waitMs);
+
+            var index = new IssueIndexPage(page);
+
+            // 2. TC04-01: Create
+            await index.ClickCreateIssueAsync();
+            var create = new IssueCreatePage(page);
+            await create.CreateAsync(
+                "Demo Issue",
+                "<p>Test description for demo workflow.</p>",
+                "dev1",
+                "Medium");
+            Assert.IsTrue(await index.ContainsIssueAsync("Demo Issue"));
+            await page.WaitForTimeoutAsync(waitMs);
+
+            // 3. TC05-01: Update
+            int createdId = await index.GetLastIssueIdAsync();
+            var edit = new IssueEditPage(page);
+            await edit.NavigateAsync(createdId);
+            await edit.EditAsync(
+                $"Demo Issue #{createdId} - Updated",
+                "<p>Updated for demo.</p>");
+            Assert.IsTrue(await index.ContainsIssueAsync($"Demo Issue #{createdId} - Updated"));
+            await page.WaitForTimeoutAsync(waitMs);
+
+            // 4. TC07-01: Change Status
+            await index.ChangeIssueStatusAsync(createdId, "Resolved");
+            await page.WaitForTimeoutAsync(waitMs);
+            var statusText = await index.GetStatusOfAsync(createdId);
+            Assert.IsTrue(statusText.Contains("Resolved"));
+
+            // 5. TC06-01: Delete
+            var titleToDelete = await index.GetTitleOfAsync(createdId);
+            await index.DeleteIssueAsync(createdId);
+            await page.WaitForTimeoutAsync(waitMs);
+            Assert.IsFalse(await index.ContainsIssueAsync(titleToDelete));
+
+            // 6. Đóng page
+            await page.CloseAsync();
+        }
     }
 }

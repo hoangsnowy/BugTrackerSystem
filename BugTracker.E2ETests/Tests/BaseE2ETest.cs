@@ -25,6 +25,7 @@ namespace BugTracker.E2ETests.Tests
             Browser = Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 Headless = false,
+                SlowMo = 2000
             }).GetAwaiter().GetResult();
         }
 
